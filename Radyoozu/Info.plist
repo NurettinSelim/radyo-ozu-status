@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Radyoozu</string>
+    <string>Radyo ÖzÜ Status</string>
     <key>CFBundleIdentifier</key>
     <string>com.radyoozu.menubar</string>
     <key>CFBundleVersion</key>

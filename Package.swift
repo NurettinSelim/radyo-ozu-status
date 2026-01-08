@@ -10,7 +10,8 @@ let package = Package(
         .executableTarget(
             name: "Radyoozu",
             path: "Radyoozu",
-            exclude: ["Info.plist"]
+            exclude: ["Info.plist"],
+            resources: [.copy("Resources")]
         )
     ]
 )
