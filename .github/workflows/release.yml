@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: swift build -c release
+
+      - name: Create App Bundle
+        run: |
+          mkdir -p "Radyo ÖzÜ Status.app/Contents/MacOS"
+          mkdir -p "Radyo ÖzÜ Status.app/Contents/Resources"
+          cp .build/release/Radyoozu "Radyo ÖzÜ Status.app/Contents/MacOS/"
+          cp Radyoozu/Info.plist "Radyo ÖzÜ Status.app/Contents/"
+          cp Radyoozu/Resources/AppIcon.icns "Radyo ÖzÜ Status.app/Contents/Resources/"
+          cp -r .build/release/Radyoozu_Radyoozu.bundle "Radyo ÖzÜ Status.app/Contents/Resources/" || true
+          echo 'APPL????' > "Radyo ÖzÜ Status.app/Contents/PkgInfo"
+          codesign --force --deep --sign - "Radyo ÖzÜ Status.app"
+
+      - name: Create ZIP
+        run: zip -r "Radyo-OzU-Status-${{ github.ref_name }}.zip" "Radyo ÖzÜ Status.app"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "Radyo-OzU-Status-${{ github.ref_name }}.zip"
+          generate_release_notes: true
